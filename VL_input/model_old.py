@@ -37,15 +37,16 @@ class AutoencoderGRU(nn.Module):
         
     
     def forward(self, x):
-        x_shape = x.shape
         _, encoder_hidden = self.encoder(x)
-        encoder_hidden = encoder_hidden.permute(1, 0, 2)
+        encoder_hidden = self.deal_encoder_hidden(encoder_hidden)
+        hidden = encoder_hidden.squeeze(0)
+        encoder_hidden = encoder_hidden.permute(1, 0, 2).repeat(1, x.shape[1], 1)
         
         decoder_outputs, _ = self.decoder(encoder_hidden)
-        decoder_outputs = decoder_outputs[:, 0:x_shape[1], :]
         decoder_outputs = self.deal_decoder_hidden(decoder_outputs)
+
         decoder_outputs = decoder_outputs.reshape(decoder_outputs.shape[0], -1)
-        return decoder_outputs, encoder_hidden
+        return decoder_outputs, hidden
 
 '''
 GRU Input: (batch_size, seq_len, input_dim)
