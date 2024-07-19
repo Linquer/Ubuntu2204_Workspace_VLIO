@@ -12,20 +12,24 @@ def train_autoencoder(net, dataloaders, config):
     
     for epoch in range(num_epochs):
         epoch_dataloader_loss = 0
-        for dataloader in dataloaders:
-            epoch_dataloader_loss = 0
-            for batch in dataloader:
-                batch = batch.to(config.device)
-                net.zero_grad()
-                decoder_outputs, encoder_hidden = net(batch)
-                # 计算损失并反向传播
-                loss = criterion(decoder_outputs, batch.reshape(batch.shape[0], -1))
-                loss.backward()
-                net_optimizer.step()
-                epoch_dataloader_loss += loss.item()
-            print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_dataloader_loss/(len(dataloader)):.4f}")
+        for batch1, batch2, batch3, batch4 in zip(*dataloaders):
+            epoch_dataloader_loss += batch_train_autoencoder(net, batch1, criterion, net_optimizer, config)
+            epoch_dataloader_loss += batch_train_autoencoder(net, batch2, criterion, net_optimizer, config)
+            epoch_dataloader_loss += batch_train_autoencoder(net, batch3, criterion, net_optimizer, config)
+            epoch_dataloader_loss += batch_train_autoencoder(net, batch4, criterion, net_optimizer, config)
+        print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_dataloader_loss/(len(dataloaders[0])*4):.4f}")
+            
 
-        
+def batch_train_autoencoder(net, batch, criterion, net_optimizer, round_flag, config):
+    batch = batch.to(config.device)
+    net.zero_grad()
+    decoder_outputs, _ = net(batch)
+    loss = criterion(decoder_outputs, batch.reshape(batch.shape[0], -1))
+    loss.backward()
+    net_optimizer.step() 
+    return loss.item()
+
+
 def test_model(net, config):
     dataloaders = create_dataloader(config.flow_list, config.batch_size, config.state_dim)
     for data_loader in dataloaders:

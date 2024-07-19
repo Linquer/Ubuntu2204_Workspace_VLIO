@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
 
 # 定义 Encoder 和 Decoder
 class EncoderGRU(nn.Module):
@@ -31,20 +30,22 @@ class AutoencoderGRU(nn.Module):
             nn.Linear(hidden_dim, hidden_dim)
         )
         self.deal_decoder_hidden = nn.Sequential(
-            nn.Linear(output_dim, output_dim),
-            nn.Linear(output_dim, output_dim)
+            nn.Linear(output_dim, output_dim*2),
+            nn.ReLU(),
+            nn.Linear(output_dim*2, output_dim)
         )   
         
     
     def forward(self, x):
+        x_shape = x.shape
         _, encoder_hidden = self.encoder(x)
-        encoder_hidden = self.deal_encoder_hidden(encoder_hidden)
-        hidden = encoder_hidden.squeeze(0)
-        encoder_hidden = encoder_hidden.permute(1, 0, 2).repeat(1, x.shape[1], 1)
+        encoder_hidden = encoder_hidden[-1]
+        encoder_hidden = encoder_hidden.unsqueeze(dim=1)
+        hidden = encoder_hidden.reshape(x_shape[0], -1)
+        encoder_hidden = encoder_hidden.repeat(1, x_shape[1], 1)
         
         decoder_outputs, _ = self.decoder(encoder_hidden)
         decoder_outputs = self.deal_decoder_hidden(decoder_outputs)
-
         decoder_outputs = decoder_outputs.reshape(decoder_outputs.shape[0], -1)
         return decoder_outputs, hidden
 

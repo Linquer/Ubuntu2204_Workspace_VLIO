@@ -1,4 +1,5 @@
-from model import DecoderGRU, EncoderGRU, AutoencoderGRU
+# from model import DecoderGRU, EncoderGRU, AutoencoderGRU
+from model_v4 import DecoderGRU, EncoderGRU, AutoencoderGRU
 import torch
 import torch.nn as nn
 from data_loader import create_dataloader
@@ -34,8 +35,8 @@ dataloaders = create_dataloader(config.flow_list, config.batch_size, config.stat
 for data_loader in dataloaders:
     for batch_data in data_loader:
         ecoder_outputs, encoder_hidden = autoencoder_net(batch_data)
-        print(ecoder_outputs.shape)
-        print(encoder_hidden.shape)
+        # print(ecoder_outputs.shape)
+        # print(encoder_hidden.shape)
         break
 
 

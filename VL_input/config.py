@@ -6,10 +6,10 @@ class Config():
     def __init__(self):
         self.flow_list = [2, 4, 6, 8]
         self.state_dim = 8
-        self.hidden_dim = 20
+        self.hidden_dim = 40
         self.num_layers = 4
         self.batch_size = 64
-        self.num_epochs = 300
+        self.num_epochs = 500
         self.learning_rate = 0.0001
         self.seed = 1
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -32,3 +32,41 @@ def set_seed(seed=1234):
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     np.random.seed(seed)
+
+
+'''
+model_v2:
+        self.flow_list = [2, 4, 6, 8]
+        self.state_dim = 8
+        self.hidden_dim = 20
+        self.num_layers = 4
+        self.batch_size = 64
+        self.num_epochs = 500
+        self.learning_rate = 0.0001
+        self.seed = 1
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+model_v3:
+        self.flow_list = [2, 4, 6, 8]
+        self.state_dim = 8
+        self.hidden_dim = 40
+        self.num_layers = 4
+        self.batch_size = 64
+        self.num_epochs = 500
+        self.learning_rate = 0.0001
+        self.seed = 1
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+model_v3:
+        self.flow_list = [2, 4, 6, 8]
+        self.state_dim = 8
+        self.hidden_dim = 40
+        self.num_layers = 4
+        self.batch_size = 64
+        self.num_epochs = 500
+        self.learning_rate = 0.0001
+        self.seed = 1
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        weight = 0.7 hidden + 0.3 
+      
+'''

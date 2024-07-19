@@ -1,4 +1,5 @@
-from model import AutoencoderGRU
+# from model import AutoencoderGRU
+from model_v4 import AutoencoderGRU
 from data_loader import create_dataloader
 from config import Config, set_seed
 from train import train_autoencoder, test_model

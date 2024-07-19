@@ -30,13 +30,52 @@ def create_dataloader(flow_list, batch_size, state_dim):
     return dataloader_list
 
 
+class VLLinearDataset(Dataset):
+    def __init__(self, flow_num, max_length=32):
+        self.data_list = []
+        for file_path in glob.glob('./Data/*.npy'):
+            state_list = np.load(file_path)
+            state_list = pad_to_length(state_list, max_length=max_length)
+        state_list = np.array(state_list)
+        state_list = torch.tensor(state_list, dtype=torch.float32)
+
+    def pad_to_length(state_list, max_length=32):
+        padded_state_list = []
+        for state in state_list:
+            if len(state) < max_length:
+                state = state + [0] * (max_length - len(state))
+            if len(state) > max_length:
+                state = state[:max_length]
+            padded_state_list.append(state)
+        return padded_state_list
+
+    def __len__(self):
+        return len(self.data_list)
+    
+    def __getitem__(self, idx):
+        return self.data_list[idx]
+
+
 
 if __name__ == '__main__':
-    config = Config()
-    dataloaders = create_dataloader(config.flow_list, config.batch_size, config.state_dim)
-    for dataloader in dataloaders:
-        print(len(dataloader))
-        for data in dataloader:
-            print(data.shape)
-            break
+    # config = Config()
+    # dataloaders = create_dataloader(config.flow_list, config.batch_size, config.state_dim)
+    # for dataloader in dataloaders:
+    #     print(len(dataloader))
+    #     for data in dataloader:
+    #         print(data.shape)
+    #         break
+    def pad_to_length(state_list, max_length=32):
+        padded_state_list = []
+        for state in state_list:
+            if len(state) < max_length:
+                state = state + [0] * (max_length - len(state))
+            if len(state) > max_length:
+                state = state[:max_length]
+            padded_state_list.append(state)
+        return padded_state_list
+    
+    state1 = [[1, 2, 3], [0], [1, 2]]
+    state1 = pad_to_length(state1)
+    print(state1)
 
