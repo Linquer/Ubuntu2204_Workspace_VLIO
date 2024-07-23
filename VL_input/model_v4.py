@@ -30,9 +30,9 @@ class AutoencoderGRU(nn.Module):
             nn.Linear(hidden_dim, hidden_dim)
         )
         self.deal_decoder_hidden = nn.Sequential(
-            nn.Linear(output_dim, output_dim*2),
+            nn.Linear(output_dim, output_dim*4),
             nn.ReLU(),
-            nn.Linear(output_dim*2, output_dim)
+            nn.Linear(output_dim*4, output_dim)
         )   
         
     
@@ -41,13 +41,16 @@ class AutoencoderGRU(nn.Module):
         encoder_output, encoder_hidden = self.encoder(x)
         encoder_hidden = encoder_hidden[-1]
         encoder_hidden = encoder_hidden.unsqueeze(dim=1)
+        temp = torch.zeros_like(encoder_hidden)
+        for i in range(x_shape[1]):
+            temp = temp + 1/(x_shape[1]) * encoder_output[:, i, :].unsqueeze(dim=1)
+        encoder_hidden = 0.4 * encoder_hidden + 0.6 * temp
         encoder_hidden = encoder_hidden.repeat(1, x_shape[1], 1)
-        encoder_hidden = 0.7 * encoder_hidden + 0.3 * encoder_output[:, 0: x_shape[1], :]
         
         decoder_outputs, _ = self.decoder(encoder_hidden)
         decoder_outputs = self.deal_decoder_hidden(decoder_outputs)
         decoder_outputs = decoder_outputs.reshape(decoder_outputs.shape[0], -1)
-        return decoder_outputs, encoder_hidden
+        return decoder_outputs, encoder_hidden[:, 0, :]
 
 '''
 GRU Input: (batch_size, seq_len, input_dim)
