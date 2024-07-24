@@ -25,6 +25,6 @@ def train():
 if __name__ == '__main__':
     # train()
     net = None
-    test_model(net, config, loacl_model=True, model_path=config.model_path + 'model_v4_03.pth')
+    test_model(net, config, loacl_model=True, model_path=config.model_path + 'model_v4_02.pth')
 
     
