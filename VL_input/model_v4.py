@@ -44,13 +44,14 @@ class AutoencoderGRU(nn.Module):
         temp = torch.zeros_like(encoder_hidden)
         for i in range(x_shape[1]):
             temp = temp + 1/(x_shape[1]) * encoder_output[:, i, :].unsqueeze(dim=1)
-        encoder_hidden = 0.4 * encoder_hidden + 0.6 * temp
+        encoder_hidden = 0.3 * encoder_hidden + 0.7 * temp
+        hidden = encoder_hidden
         encoder_hidden = encoder_hidden.repeat(1, x_shape[1], 1)
         
         decoder_outputs, _ = self.decoder(encoder_hidden)
         decoder_outputs = self.deal_decoder_hidden(decoder_outputs)
         decoder_outputs = decoder_outputs.reshape(decoder_outputs.shape[0], -1)
-        return decoder_outputs, encoder_hidden[:, 0, :]
+        return decoder_outputs, hidden
 
 '''
 GRU Input: (batch_size, seq_len, input_dim)

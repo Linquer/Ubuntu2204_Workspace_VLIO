@@ -5,9 +5,16 @@ import glob
 from config import Config
 
 class VariableLengthDataset(Dataset):
-    def __init__(self, flow_num, state_dim):
+    def __init__(self, flow_num, state_dim, mode='train'):
         self.data_list = []
-        for file_path in glob.glob('./Data/*.npy'):
+        file_path_list = []
+        if mode == 'train':
+            file_path_list = glob.glob('./Data/train/*.npy')
+        elif mode == 'valid':
+            file_path_list = glob.glob('./Data/valid/*.npy')
+        else:
+            file_path_list = glob.glob('./Data/*/*.npy')
+        for file_path in file_path_list:
             if 'flow' + str(flow_num) in file_path:
                 state_list = np.load(file_path)
                 state_list = state_list.reshape(state_list.shape[0], -1, state_dim)
@@ -21,10 +28,10 @@ class VariableLengthDataset(Dataset):
     def __getitem__(self, idx):
         return self.data_list[idx]
 
-def create_dataloader(flow_list, batch_size, state_dim):
+def create_dataloader(flow_list, batch_size, state_dim, mode='train'):
     dataloader_list = []
     for flow_num in flow_list:
-        dataset = VariableLengthDataset(flow_num, state_dim)
+        dataset = VariableLengthDataset(flow_num, state_dim, mode)
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
         dataloader_list.append(dataloader)
     return dataloader_list

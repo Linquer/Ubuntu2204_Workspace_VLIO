@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 from data_loader import create_dataloader
 from config import Config
+import glob
 
 # state_dim = 8
 # hidden_dim = 40
@@ -38,6 +39,12 @@ for data_loader in dataloaders:
         print(ecoder_outputs.shape)
         print(encoder_hidden.shape)
         break
-
-
+# mode = 'vaalid'
+# if mode == 'train':
+#     file_path_list = glob.glob('./Data/train/*.npy')
+# elif mode == 'valid':
+#     file_path_list = glob.glob('./Data/valid/*.npy')
+# else:
+#     file_path_list = glob.glob('./Data/*/*.npy')
+# print(file_path_list)
 
