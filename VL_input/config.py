@@ -8,7 +8,7 @@ class Config():
         self.state_dim = 8
         self.hidden_dim = 40
         self.num_layers = 2
-        self.batch_size = 64
+        self.batch_size = 32
         self.num_epochs = 1100
         self.learning_rate = 0.0001
         self.seed = 1

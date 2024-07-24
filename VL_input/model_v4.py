@@ -30,9 +30,9 @@ class AutoencoderGRU(nn.Module):
             nn.Linear(hidden_dim, hidden_dim)
         )
         self.deal_decoder_hidden = nn.Sequential(
-            nn.Linear(output_dim, output_dim*4),
+            nn.Linear(output_dim, output_dim*3),
             nn.ReLU(),
-            nn.Linear(output_dim*4, output_dim)
+            nn.Linear(output_dim*3, output_dim)
         )   
         
     

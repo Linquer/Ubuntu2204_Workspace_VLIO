@@ -1,0 +1,62 @@
+class Config():
+    def __init__(self):
+        self.flow_list = [2, 4, 6, 8, 10]
+        self.state_dim = 8
+        self.hidden_dim = 40
+        self.num_layers = 2
+        self.batch_size = 32
+        self.num_epochs = 1200
+        self.learning_rate = 0.0001
+        self.seed = 1
+        self.device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+        self.model_path = './Model/'
+weight: 0.5 0.5
+output: self.deal_decoder_hidden = nn.Sequential(
+            nn.Linear(output_dim, output_dim*3),
+            nn.ReLU(),
+            nn.Linear(output_dim*3, output_dim)
+        ) 
+
+
+Epoch [1180/1200], Loss: 0.4141
+Epoch [1181/1200], Loss: 0.4141
+Epoch [1182/1200], Loss: 0.4138
+Epoch [1183/1200], Loss: 0.4155
+Epoch [1184/1200], Loss: 0.4119
+Epoch [1185/1200], Loss: 0.4126
+Epoch [1186/1200], Loss: 0.4105
+Epoch [1187/1200], Loss: 0.4109
+Epoch [1188/1200], Loss: 0.4123
+Epoch [1189/1200], Loss: 0.4102
+Epoch [1190/1200], Loss: 0.4106
+Epoch [1191/1200], Loss: 0.4084
+Epoch [1192/1200], Loss: 0.4083
+Epoch [1193/1200], Loss: 0.4077
+Epoch [1194/1200], Loss: 0.4079
+Epoch [1195/1200], Loss: 0.4056
+Epoch [1196/1200], Loss: 0.4071
+Epoch [1197/1200], Loss: 0.4076
+Epoch [1198/1200], Loss: 0.4069
+Epoch [1199/1200], Loss: 0.4046
+Epoch [1200/1200], Loss: 0.4040
+tensor([[0.0000, 1.2500, 1.0000, 0.0000, 0.0000, 1.0000, 9.0000, 1.0000]],
+       device='cuda:1')
+tensor([0.1293, 1.2562, 0.4714, 0.5354, 0.2382, 0.3790, 8.6571, 0.7883],
+       device='cuda:1', grad_fn=<SelectBackward0>)
+tensor([[10.,  0.,  0.,  1.,  1.,  0.,  2.,  3.]], device='cuda:1')
+tensor([9.9735, 0.1555, 0.4680, 0.2736, 0.9832, 0.0174, 1.8946, 2.7434],
+       device='cuda:1', grad_fn=<SelectBackward0>)
+tensor([[ 0., 10.,  5.,  0.,  0.,  1.,  0.,  0.],
+        [ 0.,  1.,  1.,  0.,  8.,  5.,  1.,  3.]], device='cuda:1')
+tensor([0.0136, 9.9739, 5.1764, 0.1065, 0.2680, 0.8761, 0.5106, 0.3085, 0.0691,
+        0.8818, 0.5254, 0.1483, 7.7351, 5.2870, 0.9192, 2.9128],
+       device='cuda:1', grad_fn=<SelectBackward0>)
+tensor([[ 0., 10., 10., 10.,  0.,  0.,  1.,  0.],
+        [ 0.,  1.,  1.,  1., 16., 17., 29., 22.]], device='cuda:1')
+tensor([-0.0655,  9.8976,  9.7575,  9.4929,  0.3199,  0.0765,  0.6325,  0.4705,
+         0.3130,  0.8951,  0.8555,  0.8688, 15.9881, 17.0816, 28.7529, 21.7224],
+       device='cuda:1', grad_fn=<SelectBackward0>)
+tensor([[10.0000,  0.0000,  0.0000,  0.0000,  2.5000,  0.0000,  0.0000,  1.0000],
+        [ 0.0000,  0.0000,  0.0000,  0.0000,  1.0000,  0.0000,  0.0000,  0.0000],
+        [ 1.0000,  0.0000,  8.0000, 10.0000, 11.0000,  8.0000,  5.0000, 11.0000]],
+       device='cuda:1')

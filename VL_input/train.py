@@ -36,7 +36,7 @@ def batch_train_autoencoder(net, batch, criterion, net_optimizer, config):
 
 def test_model(net, config, loacl_model=False, model_path=None):
     if loacl_model:
-        net = torch.load(model_path)
+        net = torch.load(model_path, map_location='cuda:0')
     dataloaders = create_dataloader(config.flow_list, config.batch_size, config.state_dim)
     for data_loader in dataloaders:
         for batch_data in data_loader:
